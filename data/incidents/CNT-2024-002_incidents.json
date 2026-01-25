@@ -1,0 +1,53 @@
+[
+    {
+        "incident_id": "INC-2024-123",
+        "date": "2024-02-08",
+        "severity": "critical",
+        "title": "Database Backup Failure",
+        "description": "Automated backup system failed for 3 consecutive nights due to storage capacity issues. Issue only discovered during routine audit, raising concerns about monitoring capabilities.",
+        "resolution_hours": 18,
+        "root_cause": "Insufficient storage monitoring and capacity planning",
+        "preventable": true,
+        "vendor_response_quality": "fair",
+        "vendor_actions_taken": "Added storage, restored backup schedule, but delayed in identifying the issue initially",
+        "business_impact": "High - potential data loss risk for 72-hour window",
+        "follow_up_actions": [
+            "Vendor implemented daily backup verification reports",
+            "Daleel IT requested weekly status meetings"
+        ]
+    },
+    {
+        "incident_id": "INC-2024-156",
+        "date": "2024-03-15",
+        "severity": "critical",
+        "title": "Application Server Crash",
+        "description": "Primary application server crashed during business hours due to memory leak. Vendor took 6 hours to fully restore service.",
+        "resolution_hours": 6,
+        "root_cause": "Undetected memory leak in application code introduced in recent update",
+        "preventable": true,
+        "vendor_response_quality": "poor",
+        "vendor_actions_taken": "Restarted server initially (temporary fix), took additional 4 hours to identify and patch memory leak",
+        "business_impact": "Critical - complete service outage for 200+ users",
+        "follow_up_actions": [
+            "Vendor committed to improved testing procedures",
+            "Penalty clause invoked - $7,500 credit applied"
+        ]
+    },
+    {
+        "incident_id": "INC-2024-189",
+        "date": "2024-05-22",
+        "severity": "high",
+        "title": "Security Patch Delay",
+        "description": "Critical security patches not applied within required 48-hour SLA window.  Vendor cited resource constraints.",
+        "resolution_hours": 120,
+        "root_cause": "Vendor staffing shortage during peak period",
+        "preventable": true,
+        "vendor_response_quality": "poor",
+        "vendor_actions_taken": "Eventually applied patches but missed SLA by 72 hours, cited hiring challenges",
+        "business_impact": "Medium - increased vulnerability window, no actual breach",
+        "follow_up_actions": [
+            "Vendor hired additional security specialist",
+            "Daleel considering alternative vendors"
+        ]
+    }
+]

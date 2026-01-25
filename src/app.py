@@ -17,7 +17,8 @@ from src.agents import (
     OrchestratorAgent,
     DataIntakeAgent,
     PerformanceAnalysisAgent,
-    RiskAssessmentAgent
+    RiskAssessmentAgent,
+    ReasoningAgent
 )
 from src.utils import CSVOutputHandler
 
@@ -42,6 +43,7 @@ orchestrator = OrchestratorAgent()
 data_intake = DataIntakeAgent()
 performance = PerformanceAnalysisAgent()
 risk = RiskAssessmentAgent()
+reasoning_agent = ReasoningAgent()
 csv_handler = CSVOutputHandler()
 
 agents = {
@@ -68,6 +70,9 @@ class EvaluationResponse(BaseModel):
     risk_level: Optional[str] = None
     recommendation: Optional[str] = None
     timestamp: str
+    reasoning_chain: Optional[List[str]] = None
+    justification: Optional[str] = None
+    confidence_level: Optional[str] = None
 
 
 @app.get("/")
@@ -132,8 +137,26 @@ def evaluate_contract(request: EvaluationRequest):
     
     # Run evaluation
     try:
+        # Standard analytical evaluation
         result = orchestrator.evaluate_contract(contract, agents)
         
+        # Deep reasoning evaluation (LLM synthesis across all sources)
+        try:
+            # Note: This will load additional files (CSV, JSON, TXT, MD) if they exist
+            reasoning_result = reasoning_agent.evaluate(request.contract_id)
+            
+            # Merge reasoning into result
+            result["reasoning_chain"] = reasoning_result.get("reasoning_chain", [])
+            result["justification"] = reasoning_result.get("justification", "")
+            result["confidence_level"] = reasoning_result.get("confidence_level", "LOW")
+            
+            # Optionally override recommendation and risk if reasoning is high confidence
+            # For now, we prefer the reasoning recommendation as it's more "agentic"
+            if reasoning_result.get("recommendation"):
+                result["recommendation"] = reasoning_result["recommendation"]
+        except Exception as reasoning_err:
+            print(f"Reasoning evaluation failed (non-critical): {reasoning_err}")
+
         # Save to CSV
         csv_handler.save_result(result)
         
@@ -145,7 +168,10 @@ def evaluate_contract(request: EvaluationRequest):
             performance_score=result.get("performance_score"),
             risk_level=result.get("risk_level"),
             recommendation=result.get("recommendation"),
-            timestamp=result["timestamp"]
+            timestamp=result["timestamp"],
+            reasoning_chain=result.get("reasoning_chain"),
+            justification=result.get("justification"),
+            confidence_level=result.get("confidence_level")
         )
         
     except Exception as e:
@@ -244,9 +270,22 @@ def evaluate_sample(sample_name: str):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Unknown sample: {sample_name}. Available: {', '.join(sample_files.keys())}"
         )
+
+    contract_file_path = Path(contract_file)
+    
+    # Resolve path relative to project root if not found in current directory
+    if not contract_file_path.exists():
+        root_path = Path(__file__).parent.parent
+        contract_file_path = root_path / contract_file
+        
+    if not contract_file_path.exists():
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Contract file not found: {contract_file_path}"
+        )
     
     # Load and evaluate
-    with open(contract_file, 'r', encoding='utf-8') as f:
+    with open(contract_file_path, 'r', encoding='utf-8') as f:
         contract = json.load(f)
     
     request = EvaluationRequest(

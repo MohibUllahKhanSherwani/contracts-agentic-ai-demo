@@ -13,6 +13,7 @@ import ContractTable from './components/ContractTable';
 import StatsCard from './components/StatsCard';
 import PerformanceChart from './components/PerformanceChart';
 import RiskHeatmap from './components/RiskHeatmap';
+import ReasoningChain from './components/ReasoningChain';
 import { fetchEvaluations } from './services/api';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [lastUpdate, setLastUpdate] = useState(null);
+    const [selectedContract, setSelectedContract] = useState(null);
 
     /**
      * MAIN API CALL FUNCTION
@@ -56,6 +58,11 @@ function App() {
 
         return () => clearInterval(interval);
     }, []);
+
+    const handleSelectContract = (contract) => {
+        // Find full contract data if needed, but for now we have reasoning data in the object
+        setSelectedContract(contract);
+    };
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
@@ -121,7 +128,22 @@ function App() {
                         </div>
 
                         {/* Contracts Table */}
-                        <ContractTable contracts={contracts} />
+                        <ContractTable
+                            contracts={contracts}
+                            onSelectContract={handleSelectContract}
+                        />
+
+                        {/* Reasoning Chain Detail */}
+                        {selectedContract && (
+                            <ReasoningChain
+                                reasoning={{
+                                    reasoning_chain: selectedContract.reasoning_chain,
+                                    confidence_level: selectedContract.confidence_level,
+                                    justification: selectedContract.justification,
+                                    alternative_consideration: selectedContract.alternative_consideration
+                                }}
+                            />
+                        )}
                     </>
                 ) : null}
             </main>

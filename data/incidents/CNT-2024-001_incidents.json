@@ -1,0 +1,54 @@
+[
+    {
+        "incident_id": "INC-2024-042",
+        "date": "2024-02-15",
+        "severity": "critical",
+        "title": "Database Cluster Failure",
+        "description": "Primary database cluster experienced unexpected failover during peak business hours, affecting production systems for 45 minutes. Root cause identified as misconfigured replication settings after recent upgrade.",
+        "resolution_hours": 0.75,
+        "root_cause": "Configuration error - replication lag threshold set incorrectly during maintenance window",
+        "preventable": true,
+        "vendor_response_quality": "excellent",
+        "vendor_actions_taken": "Immediate rollback to stable configuration, implemented additional monitoring alerts, conducted full audit of recent changes",
+        "business_impact": "Medium - some users experienced read-only access, no data loss",
+        "follow_up_actions": [
+            "Vendor provided detailed post-mortem within 24 hours",
+            "Implemented enhanced change management procedures",
+            "Added automated configuration validation checks"
+        ]
+    },
+    {
+        "incident_id": "INC-2024-078",
+        "date": "2024-03-20",
+        "severity": "medium",
+        "title": "Network Latency Spike",
+        "description": "Users reported slow application response times during morning hours. Investigation revealed upstream ISP routing issue affecting regional connectivity.",
+        "resolution_hours": 2.5,
+        "root_cause": "External ISP routing instability - outside vendor control",
+        "preventable": false,
+        "vendor_response_quality": "good",
+        "vendor_actions_taken": "Quickly identified issue was external, coordinated with ISP, implemented temporary routing workaround",
+        "business_impact": "Low - degraded performance but no service interruption",
+        "follow_up_actions": [
+            "Vendor documented ISP escalation procedures",
+            "Proposed secondary ISP connection for redundancy (additional cost)"
+        ]
+    },
+    {
+        "incident_id": "INC-2024-091",
+        "date": "2024-04-10",
+        "severity": "low",
+        "title": "Scheduled Maintenance Overrun",
+        "description": "Planned maintenance window extended by 30 minutes due to unexpected complications with security patches.",
+        "resolution_hours": 0.5,
+        "root_cause": "OS patch compatibility issue discovered during deployment",
+        "preventable": "partially",
+        "vendor_response_quality": "good",
+        "vendor_actions_taken": "Proactively notified stakeholders of delay, rolled back changes safely, completed patches during next window",
+        "business_impact": "Very Low - occurred during scheduled downtime, minimal user impact",
+        "follow_up_actions": [
+            "Vendor improved pre-deployment testing procedures",
+            "Added buffer time to future maintenance windows"
+        ]
+    }
+]

@@ -1,0 +1,73 @@
+[
+    {
+        "incident_id": "INC-2023-234",
+        "date": "2023-08-12",
+        "severity": "critical",
+        "title": "Complete Network Outage",
+        "description": "Total network failure affecting all departments. Vendor took 18 hours to restore basic connectivity, with full service not restored for 26 hours.",
+        "resolution_hours": 18,
+        "root_cause": "Primary and backup network switches both failed due to power surge during storm. Vendor had not implemented proper surge protection.",
+        "preventable": true,
+        "vendor_response_quality": "poor",
+        "vendor_actions_taken": "Vendor struggled to diagnose issue, required escalation to manufacturer support, replacement hardware delayed",
+        "business_impact": "Severe - complete business disruption, estimated $50,000 in lost productivity",
+        "follow_up_actions": [
+            "Emergency meeting with vendor management",
+            "Vendor committed to equipment upgrades (not completed)"
+        ]
+    },
+    {
+        "incident_id": "INC-2023-267",
+        "date": "2023-10-05",
+        "severity": "critical",
+        "title": "Security Breach - Firewall Misconfiguration",
+        "description": "External security audit discovered critical firewall misconfiguration exposing internal systems to internet for approximately 6 weeks. No actual breach detected but exposure was significant.",
+        "resolution_hours": 24,
+        "root_cause": "Firewall rules incorrectly configured during routine maintenance, no validation performed",
+        "preventable": true,
+        "vendor_response_quality": "poor",
+        "vendor_actions_taken": "Fixed configuration immediately after discovery, but demonstrated lack of security best practices",
+        "business_impact": "Critical - potential data exposure, compliance risk, reputation damage",
+        "follow_up_actions": [
+            "Third-party security audit mandated (vendor expense)",
+            "CFO initiated vendor replacement investigation",
+            "Penalty clause invoked - $12,000 credit"
+        ]
+    },
+    {
+        "incident_id": "INC-2024-012",
+        "date": "2024-01-20",
+        "severity": "critical",
+        "title": "VPN Service Failure",
+        "description": "VPN infrastructure failed during critical quarter-end period, preventing remote workers from accessing systems for 12 hours.",
+        "resolution_hours": 12,
+        "root_cause": "VPN server capacity exceeded, vendor had not scaled infrastructure despite growth warnings from Daleel",
+        "preventable": true,
+        "vendor_response_quality": "fair",
+        "vendor_actions_taken": "Eventually added capacity but should have been proactive, not reactive",
+        "business_impact": "High - 40 remote workers unable to complete quarter-end tasks, missed deadlines",
+        "follow_up_actions": [
+            "Vendor added monitoring for capacity utilization",
+            "Daleel demanded monthly capacity reports"
+        ]
+    },
+    {
+        "incident_id": "INC-2024-045",
+        "date": "2024-03-08",
+        "severity": "high",
+        "title": "Router Failures - Recurring Issue",
+        "description": "Fourth occurrence of router stability issues in 6 months. Vendor still unable to provide permanent solution.",
+        "resolution_hours": null,
+        "root_cause": "Underlying hardware or configuration issue unresolved",
+        "preventable": true,
+        "vendor_response_quality": "very poor",
+        "vendor_actions_taken": "Vendor continues to apply temporary fixes, has not identified root cause despite 6 months of recurring issues",
+        "business_impact": "Medium per incident, but pattern shows systemic failure",
+        "follow_up_actions": [
+            "Legal reviewing termination options",
+            "Procurement engaged to identify replacement vendors",
+            "Formal notice sent to vendor management"
+        ],
+        "resolution_status": "UNRESOLVED - pattern continues"
+    }
+]

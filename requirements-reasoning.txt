@@ -1,0 +1,6 @@
+# Reasoning Architecture Upgrade - Requirements
+
+# Additional dependencies for multi-source data processing
+pandas>=2.1.0        # CSV data processing
+pypdf>=3.17.0        # PDF contract parsing (for future use)
+openpyxl>=3.1.2      # Excel financial data (for future use)

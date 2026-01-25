@@ -28,7 +28,9 @@ class CSVOutputHandler:
             "grade",
             "risk_level",
             "recommendation",
-            "status"
+            "status",
+            "justification",
+            "confidence_level"
         ]
         
         # Ensure directory exists
@@ -53,7 +55,9 @@ class CSVOutputHandler:
             "grade": self._get_grade(result),
             "risk_level": result.get("risk_level", ""),
             "recommendation": result.get("recommendation", ""),
-            "status": result.get("status", "")
+            "status": result.get("status", ""),
+            "justification": result.get("justification", ""),
+            "confidence_level": result.get("confidence_level", "")
         }
         
         # Write to CSV
