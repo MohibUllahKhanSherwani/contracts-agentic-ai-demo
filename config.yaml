@@ -3,10 +3,10 @@ llm:
   
   # Google Gemini configuration
   gemini:
-    model: gemini-2.5-flash-lite  # Use 2.5 for better quotas and speed
+    model: gemini-3-flash-preview 
     api_key: ""  # Use GEMINI_API_KEY env var for security
     temperature: 0.3
-    max_tokens: 2048
+    max_tokens: 4096
   
   # Ollama configuration (for easy switching)
   ollama:

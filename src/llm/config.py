@@ -105,5 +105,5 @@ def get_llm_config(config_path: str = "config.yaml") -> dict:
     return {
         "provider": provider_name,
         "temperature": provider_config.get("temperature", 0.0),
-        "max_tokens": provider_config.get("max_tokens", 512)
+        "max_tokens": provider_config.get("max_tokens", 4096)
     }

@@ -153,6 +153,15 @@ class ReasoningAgent:
             if "reasoning" in parsed and "reasoning_chain" not in parsed:
                 parsed["reasoning_chain"] = [parsed["reasoning"]] if isinstance(parsed["reasoning"], str) else parsed["reasoning"]
 
+            # Ensure all required fields exist with defaults
+            if "justification" not in parsed or not parsed["justification"]:
+                parsed["justification"] = "Recommendation based on synthesis of multi-source performance and risk data."
+            
+            if "strengths" not in parsed:
+                parsed["strengths"] = []
+            if "risk_factors" not in parsed:
+                parsed["risk_factors"] = []
+
             # Normalize recommendation and confidence
             if "recommendation" in parsed:
                 parsed["recommendation"] = parsed["recommendation"].upper()
@@ -160,12 +169,16 @@ class ReasoningAgent:
                 elif "TERMINATE" in parsed["recommendation"]: parsed["recommendation"] = "TERMINATE"
                 elif "RENEGOTIATE" in parsed["recommendation"]: parsed["recommendation"] = "RENEGOTIATE"
                 elif "MONITOR" in parsed["recommendation"]: parsed["recommendation"] = "MONITOR"
+            else:
+                parsed["recommendation"] = "MONITOR"
             
             if "confidence_level" in parsed:
                 parsed["confidence_level"] = parsed["confidence_level"].upper()
                 if "HIGH" in parsed["confidence_level"]: parsed["confidence_level"] = "HIGH"
                 elif "MEDIUM" in parsed["confidence_level"]: parsed["confidence_level"] = "MEDIUM"
                 elif "LOW" in parsed["confidence_level"]: parsed["confidence_level"] = "LOW"
+            else:
+                parsed["confidence_level"] = "MEDIUM"
 
             return parsed
             

@@ -23,7 +23,7 @@ class GeminiProvider(LLMProvider):
         # Initialize the new Google GenAI Client
         self.client = genai.Client(api_key=api_key)
     
-    def generate(self, prompt: str, max_tokens: int = 512, temperature: float = 0.0) -> str:
+    def generate(self, prompt: str, max_tokens: int = 4096, temperature: float = 0.0) -> str:
         """Generate text using Gemini with 429 retry logic"""
         import time
         max_retries = 3

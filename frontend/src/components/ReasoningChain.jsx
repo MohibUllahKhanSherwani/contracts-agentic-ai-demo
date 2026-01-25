@@ -120,7 +120,7 @@ const ReasoningChain = ({ reasoning, isAnalyzing }) => {
                             </span>
                         </div>
                         <p className="text-slate-300 text-sm leading-relaxed italic border-l-2 border-slate-600 pl-4 py-1">
-                            "{reasoning.justification}"
+                            "{reasoning.justification || 'No specific justification provided by AI.'}"
                         </p>
                     </div>
 

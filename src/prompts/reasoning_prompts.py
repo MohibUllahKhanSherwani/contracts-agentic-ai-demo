@@ -66,45 +66,47 @@ CRITICAL REQUIREMENTS
 
 1. **SYNTHESIZE across sources** - Don't just summarize each source separately
 2. **SHOW YOUR REASONING** - Explicitly state your thought process step-by-step
-3. **ACKNOWLEDGE TENSIONS** - If sources conflict, explain how you weighed them
-4. **USE JUDGMENT** - Do NOT apply simple formulas; consider context and nuance
-5. **STATE CONFIDENCE** - Be explicit about certainty level and what could change your mind
-6. **MAKE A DECISION** - You MUST provide a recommendation; do not defer to "need more info"
+3. **CITE EXACT FIGURES** - Always quote specific data points (e.g., "99.2% uptime", "4.2h response", "3 preventable incidents")
+4. **ACKNOWLEDGE TENSIONS** - If sources conflict, explain how you weighed them
+5. **USE JUDGMENT** - Do NOT apply simple formulas; consider context and nuance
+6. **STATE CONFIDENCE** - Be explicit about certainty level and what could change your mind
+7. **MAKE A DECISION** - You MUST provide a recommendation; do not defer to "need more info"
 
 =================================================================
 OUTPUT FORMAT (JSON)
 =================================================================
 
-Provide your analysis as valid JSON with this exact structure. VERY IMPORTANT: Keep each text value concise (max 250 characters per string) to prevent truncation of the JSON object:
+Provide your analysis as valid JSON. KEEP TEXT CONCISE BUT DATA-RICH (max 300 chars per string). Focus on quoting exact metrics:
 
 {{
   "reasoning_chain": [
-    "Step 1: [Concise performance analysis]",
-    "Step 2: [Concise incident analysis]",
-    "Step 3: [Concise context analysis]",
-    "Step 4: [Concise trade-off analysis]",
-    "Step 5: [Concise final judgment]"
+    "Step 1: [Performance analysis with uptime/speed metrics]",
+    "Step 2: [Incident analysis listing specific failure counts]",
+    "Step 3: [Contextual analysis vs benchmarks]",
+    "Step 4: [Trade-off analysis cost vs quality]",
+    "Step 5: [Final recommendation and summary conclusion]"
   ],
-  "performance_assessment": "Summary of performance history (max 300 chars)",
-  "risk_factors": ["Factor 1", "Factor 2"],
+  "performance_assessment": "Summary quoting min/max/avg metrics (max 300 chars)",
+  "risk_factors": ["Specific risk 1", "Specific risk 2"],
   "strengths": ["Strength 1", "Strength 2"],
   "recommendation": "RENEW | RENEGOTIATE | TERMINATE | MONITOR",
   "confidence_level": "HIGH | MEDIUM | LOW",
-  "justification": "Concise logic for recommendation (max 250 chars)",
-  "alternative_consideration": "What would change this decision (max 200 chars)"
+  "justification": "Evidence-based logic quoting critical metrics (max 300 chars)",
+  "alternative_consideration": "Condition for change (max 200 chars)"
 }}
 
 =================================================================
 IMPORTANT GUARDRAILS
 =================================================================
 
-- Do NOT say "I cannot make this decision" or "insufficient information"
-- Do NOT default to generic responses - be specific to THIS vendor's data
+- MANDATORY: Include every single key in the JSON structure. Do NOT omit "justification" or others.
+- Do NOT use generic phrases like "performance was low" - use "performance was 96.2%"
+- Do NOT skip incident counts or specific benchmark comparison values
 - Do NOT ignore market context or past reviews - these provide critical perspective
 - Do ACKNOWLEDGE uncertainty through confidence_level, not by refusing to decide
-- Do EXPLAIN reasoning for each of the 5 steps explicitly
+- Do EXPLAIN reasoning for each of the 5 steps explicitly with data
 
-Now, analyze the vendor data provided above and generate your comprehensive evaluation.
+Now, analyze the vendor data provided above and generate your comprehensive data-driven evaluation.
 """
 
 # Fallback prompt if main fails
