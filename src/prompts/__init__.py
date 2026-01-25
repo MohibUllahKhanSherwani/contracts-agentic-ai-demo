@@ -1,0 +1,4 @@
+"""Prompts module"""
+from .reasoning_prompts import REASONING_PROMPT_TEMPLATE, SIMPLE_REASONING_PROMPT
+
+__all__ = ["REASONING_PROMPT_TEMPLATE", "SIMPLE_REASONING_PROMPT"]

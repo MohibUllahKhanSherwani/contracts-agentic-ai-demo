@@ -11,17 +11,27 @@ from .ollama_provider import OllamaProvider
 from .azure_provider import AzureOpenAIProvider
 
 
+from pathlib import Path
+
 # Load environment variables
 load_dotenv()
 
 
 def load_config(config_path: str = "config.yaml") -> dict:
     """Load configuration from YAML file"""
+    target_path = Path(config_path)
+    
+    # If the file isn't found in current directory, try project root
+    if not target_path.exists():
+        # This assumes src/llm/config.py is 2 levels deep from root
+        root_path = Path(__file__).parent.parent.parent
+        target_path = root_path / config_path
+        
     try:
-        with open(config_path, 'r') as f:
+        with open(target_path, 'r') as f:
             return yaml.safe_load(f)
     except FileNotFoundError:
-        raise RuntimeError(f"Configuration file not found: {config_path}")
+        raise RuntimeError(f"Configuration file not found: {target_path} (CWD: {os.getcwd()})")
     except yaml.YAMLError as e:
         raise RuntimeError(f"Invalid YAML configuration: {str(e)}")
 

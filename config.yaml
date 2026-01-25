@@ -3,8 +3,8 @@ llm:
   ollama:
     model: llama3.2:1b
     base_url: http://localhost:11434
-    temperature: 0.0
-    max_tokens: 512
+    temperature: 0.1
+    max_tokens: 1024
   azure:
     endpoint: https://daleel-openai.openai.azure.com/
     deployment: gpt-4o
