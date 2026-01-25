@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from .provider import LLMProvider
 from .ollama_provider import OllamaProvider
 from .azure_provider import AzureOpenAIProvider
+from .gemini_provider import GeminiProvider
 
 
 from pathlib import Path
@@ -75,8 +76,23 @@ def get_llm_provider(config_path: str = "config.yaml") -> LLMProvider:
             deployment=deployment
         )
     
+    elif provider_name == "gemini":
+        gemini_config = llm_config.get("gemini", {})
+        api_key = os.getenv("GEMINI_API_KEY", gemini_config.get("api_key", ""))
+        
+        if not api_key:
+            raise ValueError(
+                "Gemini requires GEMINI_API_KEY environment variable or "
+                "api_key in config.yaml"
+            )
+        
+        return GeminiProvider(
+            api_key=api_key,
+            model=gemini_config.get("model", "gemini-1.5-flash")
+        )
+    
     else:
-        raise ValueError(f"Unknown LLM provider: {provider_name}. Use 'ollama' or 'azure'.")
+        raise ValueError(f"Unknown LLM provider: {provider_name}. Use 'ollama', 'azure', or 'gemini'.")
 
 
 def get_llm_config(config_path: str = "config.yaml") -> dict:
