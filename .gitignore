@@ -50,3 +50,6 @@ data/audit_logs.jsonl
 # OS
 .DS_Store
 Thumbs.db
+
+#Helping docs
+help/

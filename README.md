@@ -1,106 +1,97 @@
-# Daleel Petroleum - Agentic AI Contract Evaluation System
+# Daleel Petroleum: Contract Intelligence Hub 🚀
 
-Enterprise-grade AI agent system for automated contract performance evaluation.
+An advanced **Agentic AI** platform designed to automate and deepen contract performance evaluation. Moving beyond simple data visualization, this system utilizes Large Language Models (LLMs) to reason through disparate data sources, providing executive-level insights and actionable recommendations.
 
-## Overview
+---
 
-This system replaces manual, meeting-based contract evaluations with an autonomous multi-agent workflow that:
-- ✅ Objectively assesses contractor performance using structured data
-- ✅ Provides full audit trails for compliance
-- ✅ Runs locally with no cloud dependency (Ollama)
-- ✅ Can switch to Azure OpenAI with 1 config change
+## 🌟 Overview
 
-## Architecture
+The Daleel Petroleum Contract Intelligence Hub is a next-generation vendor management system. It doesn't just show you metrics; it understands them. By synthesizing quantitative performance data with qualitative human feedback and market context, the system provides a comprehensive "Logic Pathway" for every contract decision.
 
-**5 Specialized Agents**:
-1. **Data Intake Agent** - Validates and structures contract data
-2. **Performance Analysis Agent** - Calculates KPI scores
-3. **Risk Assessment Agent** - Flags issues and recommends actions
-4. **Reporting Agent** - Generates visual reports and audit trails
-5. **Orchestrator Agent** - Coordinates workflow and escalations
+### The "Agentic" Difference
+Unlike traditional rule-based automation (e.g., "if score < 70 then terminate"), this system behaves as an **Autonomous Auditor**. It cross-references multiple files to identify root causes, weigh market conditions, and resolve contradictions in data (e.g., identifying that a metric dip was caused by an external ISP failure rather than vendor incompetence).
 
-## Quick Start
+---
+
+## 🏗️ 4-D Data Architecture
+
+The system "thinks" across four distinct data dimensions for every contract:
+
+1.  **📊 Performance Metrics (`.csv`)**: Historical monthly data (Uptime, Response Speed, Satisfaction).
+2.  **📌 Incident logs (`.json`)**: Critical events, root causes, and resolution efficiency tracking.
+3.  **💬 Human Intelligence (`.md`)**: Qualitative feedback and executive reviews from stakeholders.
+4.  **🌍 Market Context (`.txt`)**: Industry-wide benchmarks and global supply chain trends.
+
+---
+
+## 🚀 Key Features
+
+-   **On-Demand Deep Reasoning**: Real-time LLM synthesis triggered instantly upon vendor selection.
+-   **Explainable AI (XAI)**: A transparent 5-step "Logic Pathway" showing the exact chain of thought.
+-   **Data-Driven Citations**: Recommendations that quote exact figures, SLA variances, and historical facts.
+-   **Surgical Extraction Engine**: Advanced JSON parsing with auto-repair to ensure high-fidelity reporting even with large datasets.
+-   **Premium Visual Dashboard**: A modern, high-contrast interface designed for executive decision-making.
+
+---
+
+## 🛠️ Tech Stack
+
+-   **Backend**: FastAPI (Python) - Multi-Agent Orchestration.
+-   **Frontend**: React (Vite) - Real-time Data Visualization & Skeleton Loaders.
+-   **Intelligence Core**: Google Gemini 2.0/3-Flash (via `google-genai` SDK).
+-   **Styling**: Vanilla CSS with Glassmorphism aesthetics.
+-   **Database**: Local CSV with "Upsert" logic for contract auditing records.
+
+---
+
+## 🏁 Getting Started
 
 ### Prerequisites
+- Python 3.9+
+- Node.js 18+
+- [Google Gemini API Key](https://aistudio.google.com/)
 
-- Python 3.11+
-- Ollama installed and running
-- Model: `llama3.2:1b`
-
-### Installation
-
-```bash
-# 1. Create virtual environment
-python -m venv venv
-venv\Scripts\activate  # Windows
-# source venv/bin/activate  # Linux/Mac
-
-# 2. Install dependencies
-pip install -r requirements.txt
-
-# 3. Pull Ollama model
-ollama pull llama3.2:1b
-
-# 4. Setup environment
-copy .env.example .env
-# Edit .env if needed
+### 1. Set up Environment
+Clone the repository and create a `.env` file in the root:
+```env
+GEMINI_API_KEY=your_api_key_here
 ```
 
-### Running
+### 2. Backend Installation
+```powershell
+# Create and activate virtual environment
+python -m venv venv
+.\venv\Scripts\Activate.ps1
 
-```bash
-# Start Ollama server (if not running)
-ollama serve
+# Install dependencies
+pip install -r requirements.txt
 
-# Run the application (when implemented)
+# Start the API server
 python src/app.py
 ```
 
-## Configuration
+### 3. Frontend Installation
+```powershell
+cd frontend
+npm install
 
-Edit `config.yaml` to switch between LLM providers:
+# Start the development server
+npm run dev
+```
+The dashboard will be available at `http://localhost:3000`.
 
-```yaml
-llm:
-  provider: ollama  # Change to 'azure' for Azure OpenAI
+---
+
+## 📁 Repository Structure
+```text
+├── src/                # Agentic AI & Provider Logic
+├── data/               # 4-D Contract Data Repository
+├── frontend/           # React Application
+├── config.yaml         # Project configuration (Models, Retries, Thresholds)
+└── README.md           # Professional Documentation
 ```
 
-## Project Structure
+---
 
-```
-daleel-petro-contracts-agent/
-├── src/
-│   ├── llm/              # LLM abstraction layer
-│   ├── agents/           # Agent implementations (TBD)
-│   ├── validators/       # Input/output validation (TBD)
-│   └── app.py           # FastAPI application (TBD)
-├── data/
-│   ├── samples/         # Sample contracts
-│   ├── evaluations.csv  # Results tracking
-│   └── audit_logs.jsonl # Immutable audit trail
-├── tests/               # Unit and integration tests (TBD)
-├── config.yaml          # Configuration
-├── requirements.txt     # Python dependencies
-└── README.md
-```
-
-## Development Status
-
-**Phase 1: Foundation** ✅ (Current)
-- [x] Project structure
-- [x] LLM abstraction layer
-- [x] Configuration management
-
-**Phase 2: Data Layer** (Next)
-- [ ] Data directory structure
-- [ ] Sample contract files
-- [ ] Validation module
-
-## Documentation
-
-- [Architecture Design](../../.gemini/antigravity/brain/6b274d81-b9be-48dd-9a81-7f3885b4988c/architecture.md)
-- [Implementation Tasks](../../.gemini/antigravity/brain/6b274d81-b9be-48dd-9a81-7f3885b4988c/implementation_tasks.md)
-
-## License
-
-Proprietary - Daleel Petroleum Internal Use Only
+## 📜 License
+*Proprietary - Developed for Daleel Petroleum Corporation.*
