@@ -19,6 +19,20 @@ export const fetchEvaluations = async () => {
 };
 
 /**
+ * Evaluate a specific sample contract by name
+ * Endpoint: POST /evaluate-sample/{name}
+ */
+export const evaluateSample = async (sampleName) => {
+    const response = await fetch(`${API_BASE_URL}/evaluate-sample/${sampleName}`, {
+        method: 'POST'
+    });
+    if (!response.ok) {
+        throw new Error(`Failed to evaluate vendor: ${sampleName}`);
+    }
+    return await response.json();
+};
+
+/**
  * Fetch specific evaluation by contract ID
  * Endpoint: GET /results/{contract_id}
  */

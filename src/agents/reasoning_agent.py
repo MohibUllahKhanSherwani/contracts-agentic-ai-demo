@@ -108,60 +108,69 @@ class ReasoningAgent:
     
     def _parse_llm_response(self, response: str) -> Dict:
         """
-        Parse LLM's JSON response
-        
-        Args:
-            response: Raw LLM text response
-            
-        Returns:
-            Parsed dictionary with reasoning
+        Parse LLM's JSON response with robust extraction and repair
         """
-        # Try to extract JSON from response
-        # LLM might wrap JSON in markdown code blocks
-        response_clean = response.strip()
+        import re
         
-        # Remove markdown code blocks if present
-        if response_clean.startswith("```json"):
-            response_clean = response_clean[7:]  # Remove ```json
-        if response_clean.startswith("```"):
-            response_clean = response_clean[3:]  # Remove ```
-        if response_clean.endswith("```"):
-            response_clean = response_clean[:-3]  # Remove trailing ```
+        # 1. Clean response (remove markdown and find JSON block)
+        # Try to find content between { and }
+        json_match = re.search(r'(\{.*\})', response, re.DOTALL)
+        if json_match:
+            response_clean = json_match.group(1)
+        else:
+            response_clean = response.strip()
+            # Remove markdown blocks manually if regex failed
+            if "```json" in response_clean:
+                response_clean = response_clean.split("```json")[-1].split("```")[0]
+            elif "```" in response_clean:
+                response_clean = response_clean.split("```")[-1].split("```")[0]
         
         response_clean = response_clean.strip()
         
+        # 2. Basic JSON repair for truncation
+        # If it doesn't end with }, try to close it properly
+        if not response_clean.endswith("}"):
+            print("[ReasoningAgent] Detected truncated JSON, attempting repair...")
+            # Try to close open arrays/objects
+            bracket_balance = response_clean.count('{') - response_clean.count('}')
+            if bracket_balance > 0:
+                # Common truncation point is inside a key-value or array
+                # If there's an open quote, close it
+                if response_clean.count('"') % 2 != 0:
+                    response_clean += '"'
+                # Close open arrays
+                array_balance = response_clean.count('[') - response_clean.count(']')
+                if array_balance > 0:
+                    response_clean += ']' * array_balance
+                # Close open objects
+                response_clean += '}' * bracket_balance
+
         try:
             parsed = json.loads(response_clean)
             
-            # Validate required fields
-            required_fields = [
-                "reasoning_chain",
-                "recommendation",
-                "confidence_level",
-                "justification"
-            ]
+            # Map LLM variations to standard keys if necessary
+            # (e.g., "reasoning" -> "reasoning_chain")
+            if "reasoning" in parsed and "reasoning_chain" not in parsed:
+                parsed["reasoning_chain"] = [parsed["reasoning"]] if isinstance(parsed["reasoning"], str) else parsed["reasoning"]
+
+            # Normalize recommendation and confidence
+            if "recommendation" in parsed:
+                parsed["recommendation"] = parsed["recommendation"].upper()
+                if "RENEW" in parsed["recommendation"]: parsed["recommendation"] = "RENEW"
+                elif "TERMINATE" in parsed["recommendation"]: parsed["recommendation"] = "TERMINATE"
+                elif "RENEGOTIATE" in parsed["recommendation"]: parsed["recommendation"] = "RENEGOTIATE"
+                elif "MONITOR" in parsed["recommendation"]: parsed["recommendation"] = "MONITOR"
             
-            for field in required_fields:
-                if field not in parsed:
-                    raise ValueError(f"Missing required field: {field}")
-            
-            # Validate recommendation value
-            valid_recommendations = ["RENEW", "RENEGOTIATE", "TERMINATE", "MONITOR"]
-            if parsed["recommendation"] not in valid_recommendations:
-                raise ValueError(f"Invalid recommendation: {parsed['recommendation']}")
-            
-            # Validate confidence level
-            valid_confidence = ["HIGH", "MEDIUM", "LOW"]
-            if parsed["confidence_level"] not in valid_confidence:
-                raise ValueError(f"Invalid confidence_level: {parsed['confidence_level']}")
-            
+            if "confidence_level" in parsed:
+                parsed["confidence_level"] = parsed["confidence_level"].upper()
+                if "HIGH" in parsed["confidence_level"]: parsed["confidence_level"] = "HIGH"
+                elif "MEDIUM" in parsed["confidence_level"]: parsed["confidence_level"] = "MEDIUM"
+                elif "LOW" in parsed["confidence_level"]: parsed["confidence_level"] = "LOW"
+
             return parsed
             
         except json.JSONDecodeError as e:
-            print(f"[ReasoningAgent] JSON parsing failed: {str(e)}")
-            print(f"[ReasoningAgent] Response preview: {response_clean[:500]}...")
-            
-            # Fallback: try to extract key information with regex/heuristics
+            print(f"[ReasoningAgent] JSON parsing still failed after repair: {str(e)}")
             return self._extract_structured_fallback(response)
     
     def _extract_structured_fallback(self, response: str) -> Dict:

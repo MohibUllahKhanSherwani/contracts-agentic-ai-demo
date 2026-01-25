@@ -75,31 +75,23 @@ CRITICAL REQUIREMENTS
 OUTPUT FORMAT (JSON)
 =================================================================
 
-Provide your analysis as valid JSON with this exact structure:
+Provide your analysis as valid JSON with this exact structure. VERY IMPORTANT: Keep each text value concise (max 250 characters per string) to prevent truncation of the JSON object:
 
 {{
   "reasoning_chain": [
-    "Step 1: [Your performance trend analysis with specific observations]",
-    "Step 2: [Your incident pattern assessment with examples]",
-    "Step 3: [Your contextual analysis with market factors]",
-    "Step 4: [Your trade-off analysis listing pros and cons]",
-    "Step 5: [Your final synthesis leading to recommendation]"
+    "Step 1: [Concise performance analysis]",
+    "Step 2: [Concise incident analysis]",
+    "Step 3: [Concise context analysis]",
+    "Step 4: [Concise trade-off analysis]",
+    "Step 5: [Concise final judgment]"
   ],
-  "performance_assessment": "Detailed 2-3 sentence paragraph explaining overall performance considering all sources",
-  "risk_factors": [
-    "Risk factor 1 with severity and evidence",
-    "Risk factor 2 with severity and evidence",
-    "..."
-  ],
-  "strengths": [
-    "Strength 1 with supporting evidence from data",
-    "Strength 2 with supporting evidence from data",
-    "..."
-  ],
-  "recommendation": "One of: RENEW | RENEGOTIATE | TERMINATE | MONITOR",
-  "confidence_level": "One of: HIGH | MEDIUM | LOW",
-  "justification": "2-3 sentence explanation of why this recommendation is appropriate given the analysis",
-  "alternative_consideration": "1-2 sentences explaining what evidence or circumstances would lead to a different recommendation"
+  "performance_assessment": "Summary of performance history (max 300 chars)",
+  "risk_factors": ["Factor 1", "Factor 2"],
+  "strengths": ["Strength 1", "Strength 2"],
+  "recommendation": "RENEW | RENEGOTIATE | TERMINATE | MONITOR",
+  "confidence_level": "HIGH | MEDIUM | LOW",
+  "justification": "Concise logic for recommendation (max 250 chars)",
+  "alternative_consideration": "What would change this decision (max 200 chars)"
 }}
 
 =================================================================
