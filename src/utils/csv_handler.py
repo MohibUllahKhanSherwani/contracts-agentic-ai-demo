@@ -38,18 +38,20 @@ class CSVOutputHandler:
     
     def save_result(self, result: Dict) -> None:
         """
-        Save evaluation result to CSV
+        Save evaluation result to CSV using Upsert logic
+        (Updates existing contract_id or appends new one)
         
         Args:
             result: Evaluation result dictionary
         """
-        # Check if file exists to determine if we need headers
-        file_exists = self.csv_path.exists()
+        # Read all existing results
+        results = self.read_results()
+        contract_id = result.get("contract_id", "")
         
         # Prepare row data
         row = {
             "timestamp": result.get("timestamp", datetime.utcnow().isoformat() + "Z"),
-            "contract_id": result.get("contract_id", ""),
+            "contract_id": contract_id,
             "vendor_name": result.get("vendor_name", ""),
             "performance_score": result.get("performance_score", 0),
             "grade": self._get_grade(result),
@@ -60,15 +62,22 @@ class CSVOutputHandler:
             "confidence_level": result.get("confidence_level", "")
         }
         
-        # Write to CSV
-        with open(self.csv_path, 'a', newline='', encoding='utf-8') as f:
+        # Check if contract already exists
+        updated = False
+        for i, existing in enumerate(results):
+            if existing.get("contract_id") == contract_id:
+                results[i] = row
+                updated = True
+                break
+        
+        if not updated:
+            results.append(row)
+        
+        # Rewrite the entire CSV with headers
+        with open(self.csv_path, 'w', newline='', encoding='utf-8') as f:
             writer = csv.DictWriter(f, fieldnames=self.fieldnames)
-            
-            # Write header if new file
-            if not file_exists:
-                writer.writeheader()
-            
-            writer.writerow(row)
+            writer.writeheader()
+            writer.writerows(results)
     
     def _get_grade(self, result: Dict) -> str:
         """Extract grade from result steps"""

@@ -113,8 +113,8 @@ const ReasoningChain = ({ reasoning, isAnalyzing }) => {
                         <div className="flex items-center justify-between mb-4">
                             <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Confidence Metrics</p>
                             <span className={`px-2 py-0.5 rounded text-[10px] font-black border ${reasoning.confidence_level === 'HIGH' ? 'bg-green-500/20 text-green-400 border-green-500/30' :
-                                    reasoning.confidence_level === 'MEDIUM' ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' :
-                                        'bg-red-500/20 text-red-400 border-red-500/30'
+                                reasoning.confidence_level === 'MEDIUM' ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' :
+                                    'bg-red-500/20 text-red-400 border-red-500/30'
                                 }`}>
                                 {reasoning.confidence_level}
                             </span>
@@ -127,7 +127,7 @@ const ReasoningChain = ({ reasoning, isAnalyzing }) => {
                     <div className="p-5 bg-daleel-500/5 rounded-xl border border-daleel-500/10">
                         <h4 className="text-[10px] font-bold text-daleel-400 uppercase tracking-widest mb-3">System Note</h4>
                         <p className="text-slate-500 text-[11px] leading-relaxed">
-                            This analysis was synthesized across multi-source data vectors using Gemini-2.0-Flash reasoning.
+                            This analysis was synthesized across multi-source data vectors using Gemini-2.5-Flash reasoning.
                         </p>
                     </div>
                 </div>
