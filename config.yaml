@@ -1,0 +1,22 @@
+llm:
+  provider: ollama  # ollama or azure
+  ollama:
+    model: llama3.2:1b
+    base_url: http://localhost:11434
+    temperature: 0.0
+    max_tokens: 512
+  azure:
+    endpoint: https://daleel-openai.openai.azure.com/
+    deployment: gpt-4o
+    temperature: 0.0
+    max_tokens: 512
+
+data:
+  sample_folder: data/samples
+  evaluation_file: data/evaluations.csv
+  audit_log_file: data/audit_logs.jsonl
+
+agents:
+  max_retries: 3
+  timeout_seconds: 30
+  confidence_threshold: 0.6

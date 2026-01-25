@@ -1,0 +1,56 @@
+{
+  "contract_id": "CNT-2024-001",
+  "vendor_name": "ABC IT Solutions",
+  "vendor_id": "VEN-001",
+  "start_date": "2024-01-01",
+  "end_date": "2025-12-31",
+  "value_usd": 250000,
+  "department": "IT",
+  "contract_type": "Infrastructure Support",
+  "kpis": [
+    {
+      "name": "On-time Delivery",
+      "target": 95,
+      "actual": 92,
+      "unit": "percentage",
+      "description": "Percentage of deliveries completed within agreed timeline"
+    },
+    {
+      "name": "SLA Compliance",
+      "target": 99,
+      "actual": 98.5,
+      "unit": "percentage",
+      "description": "Service Level Agreement uptime compliance"
+    },
+    {
+      "name": "Incident Response Time",
+      "target": 2,
+      "actual": 1.5,
+      "unit": "hours",
+      "description": "Average time to respond to critical incidents"
+    },
+    {
+      "name": "Customer Satisfaction",
+      "target": 4.5,
+      "actual": 4.7,
+      "unit": "rating",
+      "description": "User satisfaction rating (1-5 scale)"
+    }
+  ],
+  "incidents": [
+    {
+      "id": "INC-2024-042",
+      "date": "2024-03-15",
+      "severity": "medium",
+      "description": "Server downtime during business hours",
+      "resolved": true,
+      "resolution_time_hours": 3
+    }
+  ],
+  "budget": {
+    "allocated": 250000,
+    "spent": 245000,
+    "overrun_percentage": -2.0
+  },
+  "notes": "Strong performer with minor SLA miss in Q1. Excellent incident response time and customer satisfaction. Recommended for renewal."
+}

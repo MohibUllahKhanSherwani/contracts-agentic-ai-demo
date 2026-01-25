@@ -1,0 +1,80 @@
+{
+    "contract_id": "CNT-2023-015",
+    "vendor_name": "Problematic IT Corp",
+    "vendor_id": "VEN-015",
+    "start_date": "2023-06-01",
+    "end_date": "2024-05-31",
+    "value_usd": 120000,
+    "department": "IT",
+    "contract_type": "Network Management",
+    "kpis": [
+        {
+            "name": "On-time Delivery",
+            "target": 95,
+            "actual": 65,
+            "unit": "percentage",
+            "description": "Percentage of deliveries completed within agreed timeline"
+        },
+        {
+            "name": "SLA Compliance",
+            "target": 99,
+            "actual": 87,
+            "unit": "percentage",
+            "description": "Service Level Agreement uptime compliance"
+        },
+        {
+            "name": "Incident Response Time",
+            "target": 2,
+            "actual": 6.5,
+            "unit": "hours",
+            "description": "Average time to respond to critical incidents"
+        },
+        {
+            "name": "Customer Satisfaction",
+            "target": 4.5,
+            "actual": 2.3,
+            "unit": "rating",
+            "description": "User satisfaction rating (1-5 scale)"
+        }
+    ],
+    "incidents": [
+        {
+            "id": "INC-2023-234",
+            "date": "2023-08-12",
+            "severity": "critical",
+            "description": "Complete network outage affecting all departments",
+            "resolved": true,
+            "resolution_time_hours": 18
+        },
+        {
+            "id": "INC-2023-267",
+            "date": "2023-10-05",
+            "severity": "critical",
+            "description": "Security breach due to misconfigured firewall",
+            "resolved": true,
+            "resolution_time_hours": 24
+        },
+        {
+            "id": "INC-2024-012",
+            "date": "2024-01-20",
+            "severity": "critical",
+            "description": "VPN service failure during critical business period",
+            "resolved": true,
+            "resolution_time_hours": 12
+        },
+        {
+            "id": "INC-2024-045",
+            "date": "2024-03-08",
+            "severity": "high",
+            "description": "Repeated router failures causing intermittent connectivity",
+            "resolved": false,
+            "resolution_time_hours": null
+        }
+    ],
+    "budget": {
+        "allocated": 120000,
+        "spent": 145000,
+        "overrun_percentage": 20.8
+    },
+    "notes": "Severe underperformance across all KPIs. Multiple critical incidents including security breach. Significant budget overrun. Strong recommendation for contract termination."
+}
