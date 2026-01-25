@@ -113,37 +113,44 @@ class ReasoningAgent:
         import re
         
         # 1. Clean response (remove markdown and find JSON block)
-        # Try to find content between { and }
-        json_match = re.search(r'(\{.*\})', response, re.DOTALL)
-        if json_match:
-            response_clean = json_match.group(1)
+        # Find the FIRST '{' and the LAST '}' to extract the core JSON object
+        first_brace = response.find('{')
+        last_brace = response.rfind('}')
+        
+        if first_brace != -1:
+            if last_brace != -1 and last_brace > first_brace:
+                # We have a potentially complete JSON block
+                response_clean = response[first_brace:last_brace+1].strip()
+            else:
+                # Potentially truncated JSON (missing closing brace)
+                response_clean = response[first_brace:].strip()
         else:
             response_clean = response.strip()
-            # Remove markdown blocks manually if regex failed
-            if "```json" in response_clean:
-                response_clean = response_clean.split("```json")[-1].split("```")[0]
-            elif "```" in response_clean:
-                response_clean = response_clean.split("```")[-1].split("```")[0]
         
-        response_clean = response_clean.strip()
-        
-        # 2. Basic JSON repair for truncation
-        # If it doesn't end with }, try to close it properly
+        # 2. Advanced JSON repair for truncation
         if not response_clean.endswith("}"):
-            print("[ReasoningAgent] Detected truncated JSON, attempting repair...")
-            # Try to close open arrays/objects
-            bracket_balance = response_clean.count('{') - response_clean.count('}')
-            if bracket_balance > 0:
-                # Common truncation point is inside a key-value or array
-                # If there's an open quote, close it
-                if response_clean.count('"') % 2 != 0:
-                    response_clean += '"'
-                # Close open arrays
-                array_balance = response_clean.count('[') - response_clean.count(']')
-                if array_balance > 0:
-                    response_clean += ']' * array_balance
-                # Close open objects
-                response_clean += '}' * bracket_balance
+            print("[ReasoningAgent] Detected truncated JSON, performing deep repair...")
+            
+            # Remove trailing commas, colons, or incomplete keys/values
+            # e.g., '{"key": "val", ' -> '{"key": "val"'
+            response_clean = re.sub(r'[,\s:]+$', '', response_clean)
+            
+            # If we ended inside a string, close the quote
+            if response_clean.count('"') % 2 != 0:
+                response_clean += '"'
+                
+            # Balance brackets by adding missing closing ones
+            open_braces = response_clean.count('{')
+            close_braces = response_clean.count('}')
+            if open_braces > close_braces:
+                # If we are inside an array at the end, close it first
+                open_brackets = response_clean.count('[')
+                close_brackets = response_clean.count(']')
+                if open_brackets > close_brackets:
+                    response_clean += ']' * (open_brackets - close_brackets)
+                
+                # Close the main object(s)
+                response_clean += '}' * (open_braces - close_braces)
 
         try:
             parsed = json.loads(response_clean)
@@ -183,6 +190,41 @@ class ReasoningAgent:
             return parsed
             
         except json.JSONDecodeError as e:
+            # 3. Handle 'Extra data' error by trimming at the exact error position
+            if "Extra data" in str(e):
+                print(f"[ReasoningAgent] Extra data detected at pos {e.pos}, trimming...")
+                try:
+                    # Attempt to parse the string up to the error position
+                    parsed = json.loads(response_clean[:e.pos].strip())
+                    # If successful, proceed with the rest of the parsing logic
+                    if "reasoning" in parsed and "reasoning_chain" not in parsed:
+                        parsed["reasoning_chain"] = [parsed["reasoning"]] if isinstance(parsed["reasoning"], str) else parsed["reasoning"]
+                    if "justification" not in parsed or not parsed["justification"]:
+                        parsed["justification"] = "Recommendation based on synthesis of multi-source performance and risk data."
+                    if "strengths" not in parsed:
+                        parsed["strengths"] = []
+                    if "risk_factors" not in parsed:
+                        parsed["risk_factors"] = []
+                    if "recommendation" in parsed:
+                        parsed["recommendation"] = parsed["recommendation"].upper()
+                        if "RENEW" in parsed["recommendation"]: parsed["recommendation"] = "RENEW"
+                        elif "TERMINATE" in parsed["recommendation"]: parsed["recommendation"] = "TERMINATE"
+                        elif "RENEGOTIATE" in parsed["recommendation"]: parsed["recommendation"] = "RENEGOTIATE"
+                        elif "MONITOR" in parsed["recommendation"]: parsed["recommendation"] = "MONITOR"
+                    else:
+                        parsed["recommendation"] = "MONITOR"
+                    if "confidence_level" in parsed:
+                        parsed["confidence_level"] = parsed["confidence_level"].upper()
+                        if "HIGH" in parsed["confidence_level"]: parsed["confidence_level"] = "HIGH"
+                        elif "MEDIUM" in parsed["confidence_level"]: parsed["confidence_level"] = "MEDIUM"
+                        elif "LOW" in parsed["confidence_level"]: parsed["confidence_level"] = "LOW"
+                    else:
+                        parsed["confidence_level"] = "MEDIUM"
+                    return parsed
+                except:
+                    # If trimming and re-parsing fails, fall through to general error handling
+                    pass
+            
             print(f"[ReasoningAgent] JSON parsing still failed after repair: {str(e)}")
             return self._extract_structured_fallback(response)
     
