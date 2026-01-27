@@ -93,5 +93,4 @@ The dashboard will be available at `http://localhost:3000`.
 
 ---
 
-## 📜 License
-*Open Source - Distributed for professional contract evaluation use.*
+

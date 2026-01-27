@@ -17,7 +17,7 @@ llm:
   
   # Azure OpenAI configuration (for easy switching)
   azure:
-    endpoint: https://daleel-openai.openai.azure.com/
+    endpoint: "any_sample_endpoint"
     deployment: gpt-4o
     temperature: 0.0
     max_tokens: 512
