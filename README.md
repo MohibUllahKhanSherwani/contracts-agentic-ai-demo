@@ -195,9 +195,3 @@ pytest tests/test_agents.py
     *   Check your internet connection strength.
 
 ---
-
-## 🗺️ Roadmap & Future Enhancements
-
-*   [ ] **PDF Contract Parsing**: Direct ingestion of legal PDF documents using `pypdf`.
-*   [ ] **Excel Integration**: Native support for complex financial spreadsheets via `openpyxl`.
-*   [ ] **Historical Trending**: Long-term storage of evaluation history for year-over-year analysis.
